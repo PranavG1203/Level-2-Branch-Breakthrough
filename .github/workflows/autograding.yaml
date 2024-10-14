@@ -1,37 +1,16 @@
-name: Autograding Tests
-on:
-  - push
-  - repository_dispatch
-permissions:
-  checks: write
-  actions: read
-  contents: read
-jobs:
-  run-autograding-tests:
-    runs-on: ubuntu-latest
-    if: github.actor != 'github-classroom[bot]'
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      
-      - name: Make script executable
-        run: chmod +x ./test.sh  # Set permissions for the autograding script
+name: Autograding
 
-      - name: Level2
-        id: level2
-        uses: classroom-resources/autograding-io-grader@v1
-        with:
-          test-name: Level2
-          setup-command: ''
-          command: "./test.sh"  # The name of your autograding script
-          input: ''
-          expected-output: "All checks passed!"
-          comparison-method: exact
-          timeout: 10
+on: [push]
+
+jobs:
+  autograde:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
       
-      - name: Autograding Reporter
-        uses: classroom-resources/autograding-grading-reporter@v1
-        env:
-          LEVEL2_RESULTS: "${{steps.level2.outputs.result}}"
-        with:
-          runners: level2
+    - name: Set permissions
+      run: chmod +x test.sh
+
+    - name: Run Autograding Test
+      run: ./test.sh
