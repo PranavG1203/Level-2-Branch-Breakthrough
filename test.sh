@@ -6,17 +6,19 @@ if [ ! -f Level2.txt ]; then
     exit 1
 fi
 
-# Check if the content of Level2.txt matches the expected format
-expected_content="Main branch\nFeature branch"
-actual_content=$(cat Level2.txt)
+# Read the content of Level2.txt into an array
+mapfile -t lines < Level2.txt
 
-if [[ "$actual_content" == "$expected_content" ]]; then
+# Check if the content matches either expected format
+if [[ ("${lines[0]}" == "Feature branch" && "${lines[1]}" == "Main branch") || ("${lines[0]}" == "Main branch" && "${lines[1]}" == "Feature branch") ]]; then
     echo "Content check passed!"
 else
-    echo "Content check failed! Expected:"
-    echo "$expected_content"
+    echo "Content check failed! Expected either:"
+    echo -e "Feature branch\nMain branch"
+    echo "or:"
+    echo -e "Main branch\nFeature branch"
     echo "But got:"
-    echo "$actual_content"
+    printf "%s\n" "${lines[@]}"
     exit 1
 fi
 
