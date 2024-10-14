@@ -1,0 +1,17 @@
+name: Autograding
+
+on: [push]
+
+jobs:
+  autograde:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set permissions
+      run: chmod +x test.sh
+
+    - name: Run Autograding Test
+      run: ./test.sh
+
