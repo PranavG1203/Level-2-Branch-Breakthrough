@@ -6,8 +6,8 @@ if [ ! -f Level2.txt ]; then
     exit 1
 fi
 
-# Read the content of Level2.txt into an array
-mapfile -t lines < Level2.txt
+# Read the content of Level2.txt into an array, trimming whitespace
+mapfile -t lines < <(sed 's/^[[:space:]]*//;s/[[:space:]]*$//' Level2.txt)
 
 # Check if the content matches either expected format
 if [[ ("${lines[0]}" == "Feature branch" && "${lines[1]}" == "Main branch") || ("${lines[0]}" == "Main branch" && "${lines[1]}" == "Feature branch") ]]; then
