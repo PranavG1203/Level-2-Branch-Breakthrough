@@ -1,17 +1,32 @@
-name: Autograding
+name: Level 2 Autograding
 
-on: [push]
+on:
+  push:
+    branches:
+      - main
 
 jobs:
-  autograde:
+  check-level2:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Set permissions
-      run: chmod +x test.sh
+      - name: Check Level2.txt contents
+        run: |
+          if [ ! -f Level2.txt ]; then
+            echo "Level2.txt not found!"
+            exit 1
+          fi
 
-    - name: Run Autograding Test
-      run: ./test.sh
+          if ! grep -q "Main branch" Level2.txt; then
+            echo "Main branch content is missing!"
+            exit 1
+          fi
 
+          if ! grep -q "Feature branch" Level2.txt; then
+            echo "Feature branch content is missing!"
+            exit 1
+          fi
+
+          echo "All checks passed!"
