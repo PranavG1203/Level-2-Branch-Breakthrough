@@ -6,11 +6,15 @@ if [ ! -f Level2.txt ]; then
     exit 1
 fi
 
-# Read the content of Level2.txt into an array
+# Read and trim the content of Level2.txt
 mapfile -t lines < Level2.txt
+for i in "${!lines[@]}"; do
+    lines[$i]=$(echo "${lines[$i]}" | xargs) # Trim whitespace
+done
 
 # Check if the content matches either expected format
-if [[ ("${lines[0]}" == "Feature branch" && "${lines[1]}" == "Main branch") || ("${lines[0]}" == "Main branch" && "${lines[1]}" == "Feature branch") ]]; then
+if [[ ("${lines[0]}" == "Feature branch" && "${lines[1]}" == "Main branch") || 
+      ("${lines[0]}" == "Main branch" && "${lines[1]}" == "Feature branch") ]]; then
     echo "Content check passed!"
 else
     echo "Content check failed! Expected either:"
