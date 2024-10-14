@@ -1,3 +1,0 @@
-This is a shared file for the Level 2 assignment.
-This is the main branch line.
-
