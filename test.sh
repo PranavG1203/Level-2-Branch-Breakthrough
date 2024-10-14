@@ -6,16 +6,13 @@ if [ ! -f Level2.txt ]; then
     exit 1
 fi
 
-# Read and trim the content of Level2.txt
+# Read the content of Level2.txt into an array
 mapfile -t lines < Level2.txt
-for i in "${!lines[@]}"; do
-    lines[$i]=$(echo "${lines[$i]}" | xargs) # Trim whitespace
-done
 
 # Check if the content matches either expected format
-if [[ ("${lines[0]}" == "Feature branch" && "${lines[1]}" == "Main branch") || 
-      ("${lines[0]}" == "Main branch" && "${lines[1]}" == "Feature branch") ]]; then
-    echo "Content check passed!"
+if [[ ("${lines[0]}" == "Feature branch" && "${lines[1]}" == "Main branch") || ("${lines[0]}" == "Main branch" && "${lines[1]}" == "Feature branch") ]]; then
+    # Content check passed
+    : # Do nothing
 else
     echo "Content check failed! Expected either:"
     echo -e "Feature branch\nMain branch"
@@ -28,12 +25,13 @@ fi
 
 # Check if the feature branch exists
 if git show-ref --verify --quiet refs/heads/feature; then
-    echo "Feature branch exists."
+    # Feature branch exists
+    : # Do nothing
 else
     echo "Feature branch does not exist! Make sure you created the feature branch."
     exit 1
 fi
 
-# If both checks pass
+# If all checks pass
 echo "All checks passed!"
 exit 0
