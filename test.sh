@@ -11,8 +11,7 @@ mapfile -t lines < Level2.txt
 
 # Check if the content matches either expected format
 if [[ ("${lines[0]}" == "Feature branch" && "${lines[1]}" == "Main branch") || ("${lines[0]}" == "Main branch" && "${lines[1]}" == "Feature branch") ]]; then
-    # Content check passed
-    : # Do nothing
+    echo "Content check passed!"
 else
     echo "Content check failed! Expected either:"
     echo -e "Feature branch\nMain branch"
@@ -25,13 +24,12 @@ fi
 
 # Check if the feature branch exists
 if git show-ref --verify --quiet refs/heads/feature; then
-    # Feature branch exists
-    : # Do nothing
+    echo "Feature branch exists."
 else
     echo "Feature branch does not exist! Make sure you created the feature branch."
     exit 1
 fi
 
-# If all checks pass
+# If both checks pass
 echo "All checks passed!"
 exit 0
