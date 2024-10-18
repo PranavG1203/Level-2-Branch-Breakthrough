@@ -4,7 +4,7 @@
 I am a path that splits in two,
 One leads to changes, the other to you.
 In this quest, you will create a new branch,
-Push it to the remote, your task in advance.
+Push it to the remote, your task is to advance.
 
 ## Instructions
 
