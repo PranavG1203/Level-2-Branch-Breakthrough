@@ -6,4 +6,4 @@ One leads to changes, the other to you.
 In this quest, you will create a new branch,
 Push it to the remote, your task is to advance.
 
-`Note`: Once you have completed the steps above, ensure that all changes are pushed.
+`Note`: Once you have completed the your work, ensure that all changes are pushed.
