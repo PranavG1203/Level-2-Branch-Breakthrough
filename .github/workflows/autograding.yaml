@@ -9,7 +9,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0  # Ensure the entire commit history is fetched
+          fetch-depth: 0  
 
       - name: Fetch all branches
         run: |
@@ -18,14 +18,10 @@ jobs:
 
       - name: Check for any additional branch
         run: |
-          # Check if there is any branch other than main or master
           branch_count=$(git branch -r | grep -vE "origin/(main|master)" | wc -l)
           if [ "$branch_count" -gt 0 ]; then
-              echo "An additional branch exists."
+              echo "Pass!"
           else
-              echo "No additional branches found! Make sure you created and pushed a new branch."
+              echo "Fail!"
               exit 1
           fi
-
-      - name: Success message
-        run: echo "Branch check passed!"
