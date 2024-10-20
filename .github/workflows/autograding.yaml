@@ -1,27 +1,30 @@
-name: Autograding
-
-on: [push]
-
+name: Autograding Tests
+'on':
+- push
+- repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
 jobs:
-  autograde:
+  run-autograding-tests:
     runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0  
-
-      - name: Fetch all branches
-        run: |
-          # Fetch all remote branches
-          git fetch --all
-
-      - name: Check for any additional branch
-        run: |
-          branch_count=$(git branch -r | grep -vE "origin/(main|master)" | wc -l)
-          if [ "$branch_count" -gt 0 ]; then
-              echo "Pass!"
-          else
-              echo "Fail!"
-              exit 1
-          fi
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Flag Check
+      id: flag-check
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Flag Check
+        setup-command: ''
+        command: "bash script.sh"
+        timeout: 10
+        max-score: 10
+    - name: Autograding Reporter
+      uses: classroom-resources/autograding-grading-reporter@v1
+      env:
+        FLAG-CHECK_RESULTS: "${{steps.flag-check.outputs.result}}"
+      with:
+        runners: flag-check
